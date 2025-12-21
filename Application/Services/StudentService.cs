@@ -136,7 +136,10 @@ namespace Application.Services
             if (user == null) 
                 throw new Exception("User not found");
 
-            _userRepo.Delete(user);
+            var student = await _studentRepo.GetAll().FirstOrDefaultAsync(x => x.UserId == user.Id);
+
+            await _studentRepo.Delete(student);
+            await _userRepo.Delete(user);
             await _userRepo.SaveChanges();
         }
 
