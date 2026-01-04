@@ -28,10 +28,10 @@ namespace Future_Dev_Academy.Controllers
         }
 
         [Authorize(Roles = FDAConst.ADMIN_ROLE)]
-        [HttpGet("GetStudents")]
-        public async Task<IActionResult> GetStudents()
+        [HttpPost("GetStudents")]
+        public async Task<IActionResult> GetStudents(string? name, string? universityName)
         {
-            var result = await _studentService.GetStudentsAsync();
+            var result = await _studentService.GetStudentsAsync(name, universityName);
             return Ok(result);
         }
 

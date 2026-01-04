@@ -39,7 +39,7 @@ namespace Future_Dev_Academy.Controllers
         }
 
         [HttpGet("GetCourses")]
-        public async Task<IActionResult> GetCourses([FromQuery] string? name, [FromQuery] int? categoryId)
+        public async Task<IActionResult> GetCourses(string? name, int? categoryId)
         {
             var courses = await _courseService.GetCoursesAsync(name, categoryId);
             return Ok(courses);

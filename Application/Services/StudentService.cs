@@ -143,15 +143,17 @@ namespace Application.Services
             await _userRepo.SaveChanges();
         }
 
-        public async Task<List<StudentDetailsDto>> GetStudentsAsync()
+        public async Task<List<StudentDetailsDto>> GetStudentsAsync(string? name, string? universityName)
         {
             var roleName = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.Role);
             if (roleName != FDAConst.ADMIN_ROLE) 
                 throw new UnauthorizedAccessException("Only admin");
 
-            var students = await _studentRepo.GetAll()
-                .Include(s => s.User)
-                .ToListAsync();
+            var students = _studentRepo.GetAll()
+                .Include(x => x.User).Where(x => (!string.IsNullOrEmpty(name) ?
+                x.User.Name.Trim().ToLower().Contains(name.Trim().ToLower()) : true)
+                && (!string.IsNullOrEmpty(universityName) ?
+                x.UniversityName.Trim().ToLower().Contains(universityName.Trim().ToLower()) : true)); ;
 
             return students.Select(s => new StudentDetailsDto
             {
@@ -164,6 +166,7 @@ namespace Application.Services
                 UniversityName = s.UniversityName
             }).ToList();
         }
+
 
         public async Task<StudentDetailsDto> GetStudentByIdAsync(int userId)
         {

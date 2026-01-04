@@ -13,7 +13,7 @@ namespace Application.Services.Interfaces
         Task UpdateMyProfileAsync(UpdateMyProfileDto input);
         Task ChangeStudentPasswordAsync(ChangePasswordDto input);
         Task DeleteStudentAsync(int userId);
-        Task<List<StudentDetailsDto>> GetStudentsAsync();
+        Task<List<StudentDetailsDto>> GetStudentsAsync(string? name, string? universityName);
         Task<StudentDetailsDto> GetStudentByIdAsync(int userId);
     }
 }
